@@ -299,7 +299,7 @@ def compute_market_checks(cfg):
 
 def score_to_signal(daily, weekly, earnings_blocked=False):
     wc = weekly.get("checks", {}); dc = daily.get("checks", {})
-    if (not wc.get("above_sma10w", True) and not wc.get("above_sma20w", True)) and (not dc.get("above_sma50", True) and not dc.get("di_bull", True)): return "SELL"
+    if (not wc.get("above_sma10w", True) and not wc.get('di_bull', True)) or (not dc.get("above_sma50", True)): return "SELL"    
     if daily["pass"] and weekly["pass"]: return "BLOCKED" if earnings_blocked else "BUY"
     return "HOLD"
 
