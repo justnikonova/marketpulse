@@ -618,8 +618,8 @@ if page == "📡 Signal Scanner":
         st.markdown("---"); st.markdown("### 🌍 Market Filters"); vix_min, vix_max = st.slider("VIX range", 0, 80, (0, 22), 1)
         st.markdown("---")
         run_scan = st.button("▶  RUN SCAN", width="stretch")
-        if st.button("🔄 Force Reload", width="stretch"):
-            st.cache_resource.clear(); st.cache_data.clear(); st.rerun()
+        # if st.button("🔄 Force Reload", width="stretch"):
+        #     st.cache_resource.clear(); st.cache_data.clear(); st.rerun()
 
     st.markdown("""<div class="scanner-header"><div class="scanner-title">📡 SIGNAL SCANNER</div><div class="scanner-subtitle">Earnings blackout ±10d (BLOCKED) · SMA50 slope >= 1.50% · v2 exit logic</div></div>""", unsafe_allow_html=True)
     st.markdown('<div class="section-label">Market Conditions</div>', unsafe_allow_html=True)
@@ -799,6 +799,9 @@ elif page == "📊 Market Pulse":
     with st.sidebar:
         st.markdown("### ⚙️ Settings")
         view_mode = st.radio("View Mode", ["Sector Overview", "Single Period", "Compare Two Periods", "Period-over-Period Diff", "▶ Play Animation", "📈 Sector Trends"])
+        st.markdown("---");
+        if st.button("🔄 Force Reload", width="stretch"):
+            st.cache_resource.clear(); st.cache_data.clear(); st.rerun()
         st.markdown("---"); st.markdown("#### Period A")
         period_a = st.selectbox("Preset", ["1W", "2W", "1M", "3M", "6M", "YTD", "1Y", "1.5Y", "Custom"], index=0, key="period_a")
         if period_a == "Custom":
@@ -821,7 +824,7 @@ elif page == "📊 Market Pulse":
         else: sma_window = 50; trend_color = "#00b4d8"
         st.markdown("---"); st.markdown("#### Sector Filter")
         all_sectors = sorted(set(v[0] for v in SP500_STOCKS.values())); selected_sectors = st.multiselect("Show sectors", all_sectors, default=all_sectors)
-
+       
     sector_tickers = [t for t, (sec, _) in SP500_STOCKS.items() if sec in selected_sectors]
     prices = all_prices[[c for c in sector_tickers if c in all_prices.columns]]
     returns_a = compute_returns(prices, date_start_a, date_end_a)
